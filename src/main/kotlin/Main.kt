@@ -21,6 +21,8 @@ fun main(args: Array<String>) {
             print("Guesses: ")
             println(guesses)
         })
+
+    println("Goodbye.")
 }
 
 private fun printMenu(
@@ -71,13 +73,25 @@ private fun addGoodCharacter(wordList: WordList): Guess {
         print("Specify position (or empty for none): ")
         intInput = readln().toIntOrNull() ?: -1
         // TODO: Remove length hardcoding
-        if (intInput < -1 || intInput >= 5) {
+        if (intInput < 1 || intInput > 5) {
             println("Invalid position.")
             intInput = null
         }
+        intInput = intInput?.minus(1)
     } while (intInput == null)
 
-    val guess = Guess(char, intInput)
+    var posOrBad: Boolean? = null
+    while (intInput != -1 && posOrBad == null) {
+        print("Good position? (Y/N) ")
+        input = readln()
+        when {
+            input.lowercase() == "y" -> posOrBad = true
+            input.lowercase() == "n" -> posOrBad = false
+            else -> println("Invalid input")
+        }
+    }
+
+    val guess = if (posOrBad == true) Guess(char, pos = intInput) else Guess(char, badPos = intInput)
     wordList.filterWordList(createGoodLetterPredicate(guess))
     return guess
 }

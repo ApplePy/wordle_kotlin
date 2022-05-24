@@ -7,13 +7,13 @@ import kotlin.streams.asSequence
 class WordList private constructor(private val words: Sequence<String>) {
 
     companion object {
-        private val pattern = Pattern.compile("[a-zA-Z]{5}")
+        private val pattern = Pattern.compile("^[a-zA-Z]{5}$")
 
         fun create(wordListPath: Path): WordList {
             val wordList = sequence {
                 BufferedReader(FileReader(wordListPath.toFile())).use {
                     yieldAll(
-                        it.lines().asSequence().filter(pattern.asPredicate()::test).map(String::lowercase)
+                        it.lines().filter(pattern.asPredicate()::test).map(String::lowercase).asSequence()
                             .toMutableSet()
                     )
                 }
