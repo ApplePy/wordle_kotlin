@@ -56,6 +56,7 @@ private fun addBadCharacter(wordList: WordList): Char {
     } while (input.length != 1)
 
     val char = input[0]
+    println("Filtering using new info...")
     wordList.filterWordList(createBadLetterPredicate(char))
     return char
 }
@@ -92,6 +93,7 @@ private fun addGoodCharacter(wordList: WordList): Guess {
     }
 
     val guess = if (posOrBad == true) Guess(char, pos = intInput) else Guess(char, badPos = intInput)
+    println("Filtering using new info...")
     wordList.filterWordList(createGoodLetterPredicate(guess))
     return guess
 }
